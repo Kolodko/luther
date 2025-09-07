@@ -47,14 +47,19 @@ namespace Game.Player
         [OnUpdate]
         public void Tick()
         {
-            if (!_active) return;
+            if (!_active)
+                return;
+            
             if (_target == null || !_target.gameObject.activeInHierarchy)
                 _target = FindClosestCoin();
-            if (_target == null) return;
+            
+            if (_target == null)
+                return;
 
             Vector3 dir = (_target.transform.position - _tf.position);
             dir.y = 0f;
             float dist = dir.magnitude;
+            
             if (dist > stopDistance)
             {
                 Vector3 step = dir.normalized * moveSpeed * Time.deltaTime;
@@ -67,12 +72,14 @@ namespace Game.Player
         {
             List<Coin> list = Coin.Active;
             Coin best = null; float bestSqr = float.MaxValue; Vector3 p = _tf.position;
+            
             for (int i = 0; i < list.Count; i++)
             {
                 var c = list[i]; if (!c || !c.gameObject.activeInHierarchy) continue;
                 float sqr = (c.transform.position - p).sqrMagnitude;
                 if (sqr < bestSqr) { bestSqr = sqr; best = c; }
             }
+            
             return best;
         }
     }
